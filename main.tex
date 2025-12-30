@@ -1,0 +1,161 @@
+\documentclass[10pt,landscape,a4paper]{ctexart}
+\usepackage[landscape,margin=0.3cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+% 紧凑设置
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5pt plus 0.5pt}
+\setlength{\columnsep}{0.5cm}
+\setlist{nosep, leftmargin=*}
+\linespread{1.05} % 减小行距，让公式不会被拉伸
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\setlength{\jot}{2pt} % 多行公式之间的间距
+
+% 避免underfull警告
+\tolerance=1000
+\hbadness=10000
+\raggedright % 左对齐，避免两端对齐造成的间距问题
+
+% 数学公式紧凑设置
+\AtBeginDocument{
+  \thickmuskip=2mu plus 2mu % 粗间距
+  \medmuskip=1mu plus 1mu minus 1mu % 中间距
+  \thinmuskip=1mu % 细间距
+  \setlength{\abovedisplayskip}{0pt plus 1pt}
+  \setlength{\belowdisplayskip}{0pt plus 1pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{0pt}
+}
+
+% 紧凑的section标题格式
+\titleformat{\section}{\normalfont\bfseries\small}{\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{2pt plus 2pt minus 2pt}{1pt plus 1pt minus 1pt}
+
+\titleformat{\subsection}{\normalfont\bfseries\footnotesize}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{1pt plus 1pt minus 1pt}{0.5pt plus 0.5pt minus 0.5pt}
+
+% 自定义命令
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\var}[1]{\text{Var}(#1)}
+\newcommand{\cov}[1]{\text{Cov}(#1)}
+\renewcommand{\d}{\mathrm{d}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{multicols*}{4}
+\scriptsize % 使用较小字号
+
+\section{概率论基本概念}
+
+\textbf{概率公理化}：$S$ 为样本空间，$F$ 为 $S$ 的某些子集组成的事件域。如果定义在 $F$ 上的实值函数 $P$ 满足。1. $\forall A \in F,P(A)\ge 0$；2. $P(S)=1$；3. $\forall A_1,A_2,\ldots \in F$ 且两两互斥，有 $P\left(\bigcup_{i=1}^{\infty} A_i\right)=\sum_{i=1}^{\infty} P(A_i)$，则称 $P$ 为概率测度，$(S,F,P)$ 为概率空间。
+
+\textbf{一般加法公式} $P(\bigcup_{i=1}^n A_i) = \sum_{i=1}^n P(A_i) - \sum_{1\le i<j\le n}P(A_iA_j) + \cdots + (-1)^{n-1} P(A_1\cdots A_n)$
+
+\textbf{贝叶斯公式} $\displaystyle P(A|B) = P(B|A) \cdot \frac{P(A)}{P(B)}$
+
+相互独立比两两独立\textbf{更强}。
+
+\textbf{Union Bound} $P\left(\bigcup A_i\right) \le \sum P(A_i)$，对 $A_i$ 无要求。
+
+\textbf{证明存在可以通过证明其概率大于 0}
+
+\section{离散随机变量}
+
+$P(X\ge E(X))>0,P(X\le E(X))>0,\var{aX+b}=a^2\var{X}$
+
+尾不等式/集中不等式：随机变量与期望的偏离。
+
+\textbf{Markov}：对\textbf{非负} $X$，$E(X)>0,a>0$，有 $$P(X\ge a) \le {E(X)} / {a}\quad P(X\ge aE(X)) \le 1 / a$$
+
+\textbf{Chebyshev}：对 $\sigma(X)>0,c>0$，$$\begin{aligned}P(|X-E(X)|\ge c\cdot \sigma(X))\le1 / c^2\\P(|X-E(X)|\ge a) \le {\var{X}} / {a^2}\end{aligned}$$
+
+\vspace{-3pt}
+\begin{center}
+\vspace{-3pt}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{分布} & \textbf{分布列} $P(X=k)=$ & \textbf{期望} & \textbf{方差} \\
+\hline
+$B(n,p)$ & $\binom{n}{k}p^k(1-p)^{n-k}$ & $np$ & $np(1-p)$ \\
+\hline
+$G(p)$ & $p(1-p)^{k-1}$ & $\frac{1}{p}$ & $\frac{1-p}{p^2}$ \\
+\hline
+$\pi(\lambda)$ & ${\lambda^k e^{-\lambda}} / {k!}$ & $\lambda$ & $\lambda$ \\
+\hline
+$NB(r,p)$ & $\binom{k-1}{r-1}p^r(1-p)^{k-r}$ & $\frac{r}{p}$ & $\frac{r(1-p)}{p^2}$ \\
+\hline
+\end{tabular}
+\vspace{-3pt}
+\end{center}
+\vspace{-3pt}
+
+\textbf{二项分布}：$n$ 次独立重复伯努利实验成功次数。\textbf{几何分布}：第一次成功的试验次数。\textbf{负二项分布}：第 $r$ 次成功的次数。有 $G(p) = NB(1,p)$。\textbf{泊松分布}：单位时间内事件发生次数。几何分布具有\textbf{无记忆性}：$P(X>m+n | X>m)=P(X>n)$。$NB(r,p)$ 可以拆成 $r$ 个独立的 $G(p)$ 之和。
+
+\section{连续随机变量}
+
+\textbf{正态分布}：$X\sim N(\mu,\sigma^2)$，$f(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp(-\frac{(x-\mu)^2}{2\sigma^2})$，$E(X)=\mu,\var{X}=\sigma^2$。标准正态分布 $Z\sim N(0,1)$。
+
+\textbf{指数分布}：$X\sim \text{Exp}(\lambda)$，$f(x)=\lambda e^{-\lambda x}$，$F(x) = 1-e^{-\lambda x}$，$E(X)=1/\lambda, \var{X}=1/\lambda^2$。具有无记忆性 $P(X>s+t|X>s) = P(X>t)$。理解为泊松分布假设下，第一次事件发生的时刻。
+
+\textbf{伽马分布}：$X\sim \Gamma(\alpha,\lambda)$，理解为泊松假设下第 $\alpha$ 次的时刻。$$f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\lambda x},x\ge0$$ $E(X)=\alpha / \lambda$，$\var{X}=\alpha / \lambda^2$。其中 $\Gamma(\alpha) = \int_0^{\infty} x^{\alpha-1} e^{-x} \d x, \Gamma(\alpha + 1) = \alpha \cdot \Gamma(\alpha), \Gamma(n+1)=n!, \Gamma(n+\frac12) = \frac{(2n)!}{4^nn!}\sqrt{\pi}$。具有可加性：$\Gamma(\alpha_1+\alpha_2, \lambda) = \Gamma(\alpha_1, \lambda) + \Gamma(\alpha_2, \lambda)$。$\alpha=1$ 时即指数分布。$\alpha=n/2, \lambda=1/2$ 时即 $\chi^2(n)$ 分布。
+
+\textbf{概率密度变换}：$Y=g(X)$，$g$ 单调且反函数 $h(y)$ 有连续导数，则 $f_Y(y) = f_X(h(y))\cdot |h'(y)|$。如果没法直接套这个公式的话可以从\textbf{分布函数}的定义出发进行变换。
+
+\section{多维离散随机变量}
+
+对于\textbf{独立}的 $X,Y$，有 $\var{X \pm Y} = \var{X} + \var{Y}$
+
+\textbf{协方差}：$\cov{X,Y} = E((X-E(X))(Y-E(Y))) = E(XY) - E(X)E(Y)$。
+
+$\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y} + 2\cov{X,Y}$，$\cov{aX,bY} = ab\cdot \cov{X,Y}$，$\cov{X_1+X_2,Y}=\cov{X_1,Y}+\cov{X_2,Y}$
+
+\textbf{条件期望}：$E(X|Y=y)=\sum_i x_i P(X=x_i|Y=y)$，是关于 $y$ 的函数。$E(X|Y)$ 是随机变量。
+
+\textbf{重期望公式}：$E(E(X|Y)) = E(X)$
+
+\section{多维连续随机变量}
+
+\textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。
+
+\textbf{相关系数} $\text{Corr}(X,Y)=\cov{X,Y}/\sigma(X)\sigma(Y)$。相关系数/协方差大于 0 则正相关，小于 0 则负相关，等于 0 则不相关（但不一定独立）。
+
+\subsection{概率密度变换}
+
+\textbf{卷积公式}：若 $X,Y$ 独立，$Z=X+Y$，则 $$f_Z(z) = \int_{-\infty}^{\infty} f_X(x) f_Y(z-x) \d x = \int_{-\infty}^{\infty} f_X(z-y) f_Y(y) \d y$$
+
+\textbf{min/max}：若 $X_1,\cdots,X_n$ 独立，则 $Y = \max\{X_i\}$ 的分布函数为 $F_Y(y) = \prod_{i=1}^n F_{X_i}(y)$，$Y=\min\{X_i\}$ 的分布函数为 $F_Y(y) = 1 - \prod_{i=1}^n (1 - F_{X_i}(y))$。
+
+\textbf{换元}：$X,Y$ 的概率密度为 $f(x,y)$，函数 $u=u(x,y)$ 和 $v=v(x,y)$ 偏导连续且 $x=x(u,v),y=y(u,v)$ 为唯一反函数，则 $U=u(X,Y),V=v(X,Y)$ 的联合概率密度为 $$g(u,v) = f(x(u,v),y(u,v)) \cdot |J|, J = \left|\frac{\partial(x,y)}{\partial(u,v)}\right| = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix}$$
+
+% TODO 添加例子
+
+\subsection{线性代数}
+
+\section{尾不等式、大数定律与中心极限定理}
+\section{参数估计}
+
+\section{回归分析}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nunc elit, tristique quis dignissim sit amet, malesuada nec ante. Phasellus quis tincidunt turpis. Nullam porttitor mi ut sem condimentum, eget malesuada sapien lacinia. Nunc sagittis porttitor interdum. Proin sit amet mattis tortor. Fusce vulputate quam nec vestibulum placerat. Nunc accumsan vestibulum tortor, a accumsan diam tempus vitae. Cras varius molestie purus vitae fermentum. Nullam malesuada congue luctus. Vivamus quis neque neque. Donec ornare dictum odio, quis vestibulum ligula elementum aliquam.
+
+Cras vitae pharetra elit, sit amet finibus purus. Maecenas at mauris et turpis faucibus vestibulum. Nulla facilisi. Vivamus faucibus ullamcorper ante, quis condimentum orci imperdiet pretium. Praesent sed quam vulputate nibh elementum lobortis eu tempor ligula. Vivamus non urna elit. Morbi imperdiet magna pulvinar tellus volutpat rutrum. Mauris imperdiet purus ullamcorper, pellentesque ligula sit amet, ultricies lacus. Nulla luctus euismod egestas. Nam eleifend nunc a enim sagittis, feugiat auctor libero luctus. Nullam nec placerat sem, in aliquet tellus.
+
+Duis non elementum neque. Vivamus eget nibh vel neque mattis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas et quam vitae enim tempus luctus eu sit amet enim. In facilisis ex eget vehicula vestibulum. Phasellus laoreet arcu in nibh sodales semper vitae sit amet leo. Vestibulum sagittis pellentesque quam id imperdiet. Cras tempor consequat tellus. In congue facilisis varius. Duis tempor felis eget ante dignissim, sed ultrices turpis lacinia. Nunc nec nunc nulla. Aliquam tempor mauris vel placerat vehicula. Aliquam vulputate ut sem eget interdum. Donec a faucibus est. Vestibulum volutpat enim aliquet nisi faucibus bibendum. Sed rutrum eleifend sem, nec hendrerit tortor mattis accumsan.
+
+Suspendisse cursus felis sed nunc egestas dapibus. Nunc quis eros sem. Ut lorem elit, vestibulum quis neque sed, tincidunt pellentesque eros. Curabitur ac condimentum lacus. Suspendisse potenti. Proin commodo lorem arcu, at porttitor ligula aliquet quis. Nulla facilisi. Integer pretium quam leo, et iaculis nisi semper et. Cras vel volutpat lectus. Phasellus porttitor, lacus vel pretium accumsan, ex lacus maximus sapien, sit amet suscipit turpis ex vel quam. Aliquam egestas porta arcu nec bibendum.
+
+Mauris facilisis tortor nec lectus accumsan mattis. Donec eget commodo elit, non porttitor neque. Cras lobortis orci quis lacus consequat, sed rhoncus augue iaculis. Donec quis tincidunt ex. Curabitur in elit tellus. Integer pharetra dui metus, nec auctor nisi gravida eget. Fusce orci nulla, laoreet tincidunt varius accumsan, laoreet at neque. Aenean at mauris venenatis metus semper eleifend.
+
+\end{multicols*}
+
+\end{document}
