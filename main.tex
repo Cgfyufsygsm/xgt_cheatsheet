@@ -128,7 +128,7 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。
 
-\textbf{相关系数} $\text{Corr}(X,Y)=\cov{X,Y}/\sigma(X)\sigma(Y)$。相关系数/协方差大于 0 则正相关，小于 0 则负相关，等于 0 则不相关（但不一定独立）。
+\textbf{相关系数} $\text{Corr}(X,Y)=\cov{X,Y}/\sigma(X)\sigma(Y)$。相关系数/协方差大于 0 则正相关，小于 0 则负相关，等于 0 则不相关（但不一定独立）。相关系数等于 $\pm1$ 代表 $X,Y$ 呈严格线性关系。证明考虑标准化 $\tilde{X},\tilde{Y}$，然后通过 $\var{\tilde{X}-\tilde{Y}}=0$ 推导出 $P(\tilde{X}-\tilde{Y}=c)=1$。
 
 \subsection{概率密度变换}
 
@@ -138,14 +138,78 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \textbf{换元}：$X,Y$ 的概率密度为 $f(x,y)$，函数 $u=u(x,y)$ 和 $v=v(x,y)$ 偏导连续且 $x=x(u,v),y=y(u,v)$ 为唯一反函数，则 $U=u(X,Y),V=v(X,Y)$ 的联合概率密度为 $$g(u,v) = f(x(u,v),y(u,v)) \cdot |J|, J = \left|\frac{\partial(x,y)}{\partial(u,v)}\right| = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix}$$
 
-% TODO 添加例子
+% // TODO 添加例子
 
 \subsection{线性代数}
 
+\textbf{对角化}：$\boldsymbol{A} = \boldsymbol{P}\boldsymbol{\Lambda}\boldsymbol{P}^{-1}$。保行列式，平方的行列式和 trace 不变。实对称矩阵可对角化，不同特征值的特征向量正交。
+
+\textbf{正定}：半正定矩阵 $\boldsymbol{A}$ 存在 $\boldsymbol{B} = \boldsymbol{A}^{1/2}$，$\boldsymbol{B}^\top \boldsymbol{B} = \boldsymbol{B}^2=\boldsymbol{A}$，且 $B$ 不唯一。对于正定矩阵，这样的 $\boldsymbol{B}$ 可逆，$(\boldsymbol{B}^{-1})^{2}=\boldsymbol{A}^{-1}$。
+
+\textbf{协方差矩阵}：对于随机变量 $\boldsymbol{X} = (X_1,\cdots,X_n)$，$\cov{\boldsymbol{X}} = E((\boldsymbol{X}-E(\boldsymbol{X}))(\boldsymbol{X}-E(\boldsymbol{X}))^\top)$ 为协方差矩阵，有 $$\resizebox{\linewidth}{!}{$\cov{\boldsymbol{X}}=\begin{pmatrix}
+  \var{X_1}&\cov{X_1,X_2}&\cdots&\cov{X_1,X_n}\\
+  \cov{X_2,X_1}&\var{X_2}&\cdots&\cov{X_2,X_n}\\
+  \vdots&\vdots&&\vdots\\
+  \cov{X_n,X_1}&\cov{X_n,X_2}&\cdots&\var{X_n}
+\end{pmatrix}$}$$ 其对称且半正定。
+
+\textbf{高斯}：$n$ 维高斯的联合密度函数，$\boldsymbol{B}$ 为协方差矩阵：$$f(\boldsymbol{x}) = \frac{1}{(2\pi)^{\frac n2}(\det\boldsymbol{B})^{\frac12}}\exp\left(-\frac12\cdot (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{B}^{-1} (\boldsymbol{x} - \boldsymbol{\mu})\right)$$ 若 $\boldsymbol{X} \sim N(\boldsymbol{\mu},\boldsymbol{B})$，令 $\boldsymbol{Y} = \boldsymbol{AX} + \boldsymbol{b}$，且 $\boldsymbol{A}$ 行满秩，则 $Y\sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{AB}\boldsymbol{A}^\top)$
+
 \section{尾不等式、大数定律与中心极限定理}
+
+尾不等式：$P(X\ge k)$ 的上界。集中不等式：$P(|X-E(X)|\ge k)$ 的上界。
+
+\textbf{矩}：$E(X^n)$ 称为 $X$ 的 $n$ 阶矩，$E((X-E(X))^n)$ 称为 $X$ 的 $n$ 阶中心矩。切比雪夫不等式的本质是对二阶中心矩使用 Markov。
+
+\textbf{矩生成函数}：$M_X(t) = E(e^{tX}) = \sum_{i\ge0}\frac{t^i}{i!}E(X^i)$。所以求 $k$ 阶矩可以求其封闭形式的 $k$ 阶导然后令 $t=0$。
+
+\textbf{Chernoff Bound}：求 $k$ 阶中心矩然后用 Markov 得到的尾不等式通常较弱（没有真正用到 $n$ 重伯努利实验的独立性）。对于任意 $t>0$，有 $$P(X\ge a) = P(e^{tX} \ge e^{ta}) \le \frac{E(e^{tX})}{e^{ta}} = e^{-ta} M_X(t)$$ 对于任意 $t<0$ 有 $P(X\le a)\le M_X(t)\cdot e^{-t a} $ 通过调节 $t$ 可得到更紧的上界。一般而言是\textbf{求导}找最小值。
+
+\textbf{Hoeffding 引理}：若实数随机变量 $a\le X\le b$， 则对任意实数 $t$ 有 $$E(e^{t(X-E(X))}) \le \exp\left(\frac{t^2(b-a)^2}{8}\right)$$
+
+\textbf{Chernoff-Hoeffding 不等式}：$X_1,\cdots,X_n$ 独立，且 $a_i\le X_i \le b_i$，令 $X = \sum_{i=1}^n X_i$，则对任意 $t>0$ 有 $$\begin{aligned}
+P(X \ge E(X) + t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)\\
+P(X \le E(X) - t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)
+\end{aligned} $$ 对于 $a\le X_i\le b$ 的情况，分母就是 $n(b-a)^2$。
+
+\textbf{大数定律的一般形式}：对于随机变量 $\{X_n\}$，对于任意 $\epsilon>0$，若$$\lim_{n\to \infty}P\left(\left|\frac1n\sum_{i=1}^{n}X_i-\frac1n\sum_{i=1}^{n}E(X_i)\right|<\epsilon\right)=1$$
+
+\textbf{Markov 大数定律}：$\frac{1}{n^2}\var{\sum_{i=1}^{n}X_i}\to 0$，则 $\{X_n\}$ 满足大数定律的一般形式。
+
+\textbf{辛钦大数定律}：$\{X_n\}$ 独立同分布，且 $E(X_i)=\mu$，则 $\{X_n\}$ 满足大数定律的一般形式。对比 Markov，需要 iid，但不需要方差。
+
+\textbf{依概率收敛}：随机变量序列 $\{X_n\}$ 依概率收敛于 $X$，记作 $X_n \xrightarrow{P} X$，如果对任意 $\epsilon>0$，有 $$\lim_{n\to \infty} P(|X_n - X| \ge \epsilon) = 0$$
+
+\textbf{依分布收敛}：随机变量序列 $\{X_n\}$ 依分布收敛于 $X$，记作 $X_n \xrightarrow{d} X$，如果对任意 $x$，$F_{X_n}(x) \to F_X(x)$。\textbf{依概率收敛可以推出依分布收敛，反之不亦然}
+
+\textbf{几乎必然收敛}：随机变量序列 $\{X_n\}$ 几乎必然收敛于 $X$，记作 $X_n \xrightarrow{a.s.} X$，如果 $\forall \epsilon>0$ $$\lim_{n\to\infty}P\left(\bigcup_{m=n}^\infty |X_m-X|\ge \epsilon\right) = 1$$
+
 \section{参数估计}
 
+估计量：样本的函数，用于估计未知参数。
+
+\textbf{偏差}：$\text{Bias}(\hat{\theta}) = E(\hat{\theta}) - \theta$，$\text{Bias}(\hat \theta)=0$ 称为无偏估计量。若 $\lim_{n\to\infty}E(\hat\theta)=\theta$，称为\textbf{渐近无偏}估计量。
+
+\textbf{均方误差}：$\text{MSE}(\hat{\theta}) = E((\hat{\theta}-\theta)^2) = \var{\hat{\theta}} + (\text{Bias}(\hat{\theta}))^2$。若无偏则 $\text{MSE}(\hat{\theta}) = \var{\hat{\theta}}$。
+
+\textbf{一致估计量}：若估计量 $\hat{\theta}_n\xrightarrow{P} \theta$，则称 $\hat{\theta}_n$ 为参数 $\theta$ 的一致估计量。等价于 $\text{MSE} \to 0$。
+
+$k$ 阶矩：$A_k = \frac1n \sum_{i=1}^n X_i^k$，$A_k$ 是 $\mu_k = E(X^k)$ 的无偏估计量，且一致。$k$ 阶中心矩：$B_k = \frac1n \sum_{i=1}^n (X_i - \overline{X})^k$。$B_2$ 是 $\sigma^2$ 的渐近无偏估计量，且一致，但不是无偏估计量。因为 $E(B_2) = E(X^2) - E(\overline{X}^2)$，而 $E(\overline{X}^2) = (E(X))^2 + \var{\overline{X}}$（平方的期望减期望的平方），然后 $\var{\overline{X}} = \var{X}/n$，所以 $E(B_2) = \frac{n-1}{n}\var{X}$。\textbf{样本方差} $S^2 = \frac1{n-1}\sum_{i=1}^n (X_i - \overline{X})^2$ 是 $\var{X}$ 的无偏估计量。
+
+% // TODO：p19-20 
+
+\textbf{矩法}：用样本矩替换总体矩。\textbf{MLE}：最大化似然函数 $L(\theta)=P(X_1=x_1,\cdots,X_n=x_n)$。
+
+\textbf{区间估计}：设计统计量 $\hat\theta_L(X_1,\cdots,X_n)$ 和 $\hat\theta_U(X_1,\cdots,X_n)$，使得 $P(\hat\theta_L \le \theta \le \hat\theta_U) \ge 1 - \alpha$。
+
+方法：\textbf{枢轴量法}。设计枢轴量 $G$ 使得 $G$ 的分布与未知参数无关，然后选择 $c,d$ 使得 $P(c \le G \le d) = 1 - \alpha$，从而得到不等式 $c \le G(X_1,\cdots,X_n,\theta) \le d$，解出 $\theta$ 的区间估计。
 \section{回归分析}
+
+回归分析：$y=\alpha+\beta x + \epsilon$，其中 $\epsilon$ 为误差项，$E(\epsilon)=0$, $\var{\epsilon}=\sigma^2$。
+
+\textbf{最小二乘}：$Q(\alpha,\beta) = \sum_{i=1}^{n}(y_i-\beta x_i - \alpha)^2$，使得 $Q$ 最小的 $\hat\alpha, \hat\beta$ 称为最小二乘估计。求偏导然后令为 $0$ 可得 $$\hat\beta = \frac{S_{xy}}{S_{xx}}, \hat\alpha = \overline{y} - \hat\beta \overline{x}$$ 其中 $S_{xy} = \sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})$，$S_{xx} = \sum_{i=1}^n (x_i - \overline{x})^2$。
+
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nunc elit, tristique quis dignissim sit amet, malesuada nec ante. Phasellus quis tincidunt turpis. Nullam porttitor mi ut sem condimentum, eget malesuada sapien lacinia. Nunc sagittis porttitor interdum. Proin sit amet mattis tortor. Fusce vulputate quam nec vestibulum placerat. Nunc accumsan vestibulum tortor, a accumsan diam tempus vitae. Cras varius molestie purus vitae fermentum. Nullam malesuada congue luctus. Vivamus quis neque neque. Donec ornare dictum odio, quis vestibulum ligula elementum aliquam.
 
 Cras vitae pharetra elit, sit amet finibus purus. Maecenas at mauris et turpis faucibus vestibulum. Nulla facilisi. Vivamus faucibus ullamcorper ante, quis condimentum orci imperdiet pretium. Praesent sed quam vulputate nibh elementum lobortis eu tempor ligula. Vivamus non urna elit. Morbi imperdiet magna pulvinar tellus volutpat rutrum. Mauris imperdiet purus ullamcorper, pellentesque ligula sit amet, ultricies lacus. Nulla luctus euismod egestas. Nam eleifend nunc a enim sagittis, feugiat auctor libero luctus. Nullam nec placerat sem, in aliquet tellus.
