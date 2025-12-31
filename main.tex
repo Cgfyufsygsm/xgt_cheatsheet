@@ -209,6 +209,19 @@ $k$ 阶矩：$A_k = \frac1n \sum_{i=1}^n X_i^k$，$A_k$ 是 $\mu_k = E(X^k)$ 的
 
 \textbf{最小二乘}：$Q(\alpha,\beta) = \sum_{i=1}^{n}(y_i-\beta x_i - \alpha)^2$，使得 $Q$ 最小的 $\hat\alpha, \hat\beta$ 称为最小二乘估计。求偏导然后令为 $0$ 可得 $$\hat\beta = \frac{S_{xy}}{S_{xx}}, \hat\alpha = \overline{y} - \hat\beta \overline{x}$$ 其中 $S_{xy} = \sum_{i=1}^n (x_i - \overline{x})(y_i - \overline{y})$，$S_{xx} = \sum_{i=1}^n (x_i - \overline{x})^2$。
 
+\textbf{一个很关键的技巧}：$\sum (x_i - \overline{x}) = 0$，因此可以对比如 $\sum (x_i-\overline{x})(x_i)$ 的式子进行处理成 $s_{xx}$ 的形式。
+
+\textbf{无偏性}：$\hat{\beta} = \beta + \sum \epsilon_i (x_i - \overline{x})/s_{xx}$，$\hat{\alpha} = \alpha + \sum \epsilon_i \left(\frac 1n - \frac{(x_i - \overline{x})}{s_{xx}}\cdot \overline{x}\right)$
+
+\textbf{估计量的方差与协方差}：$\text{MSE}(\hat{\beta}) = \var{\hat{\beta}} = \sigma^2/s_{xx}$，$\text{MSE}(\hat{\alpha}) = \var{\hat{\alpha}} = \sigma^2 \left(\frac 1n + \frac{(\overline{x})^2}{s_{xx}}\right)$，算协方差的时候同样考虑只有交叉项有贡献，$\cov{\hat{\alpha},\hat{\beta}} = -\sigma^2\cdot \frac{\overline{x}}{s_{xx}}$。
+
+\textbf{预测值的无偏性与方差}：预测值 $\hat{y_i} = \hat{\alpha} + \hat{\beta}x_i$，$E(\hat{y_i}) = \alpha + \beta x_i$，所以无偏。$\var{\hat{y_i}} = \sigma^2\left[\frac 1n + \frac{(x_i - \overline{x})^2}{s_{xx}}\right]$，通过 $\var{\hat{y_i}} = \var{\hat{\alpha}} + x_i^2\var{\hat{\beta}} + 2x_i\cov{\hat{\alpha},\hat{\beta}}$ 计算。
+
+\textbf{残差的方差}：残差 $e_i = y_i - \hat{y_i}$，$E(e_i) = 0$，展开方差的公式来计算 $\var{e_i} = \sigma^2\left[1 - \frac 1n - \frac{(x_i - \overline{x})^2}{s_{xx}}\right]$。
+
+\textbf{$\sigma^2$ 的无偏估计}：$E(\sum (\hat{y}_i - y_i)^2) = \sum\var{\hat{y}_i - y_i} = (n-2)\sigma^2$，所以 $s^2 = \frac{1}{n-2}\sum(\hat{y_i} - y_i)^2$ 为无偏估计量。
+
+\textbf{最大似然}：需要 $\epsilon_i \sim N(0,\sigma^2)$，对于 $\alpha,\beta$ 等价于最小二乘，但是 $\hat{\sigma^2}_{\text{MLE}} = \frac 1n\sum(y_i - \hat{y}_i)^2$，是有偏的。
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nunc elit, tristique quis dignissim sit amet, malesuada nec ante. Phasellus quis tincidunt turpis. Nullam porttitor mi ut sem condimentum, eget malesuada sapien lacinia. Nunc sagittis porttitor interdum. Proin sit amet mattis tortor. Fusce vulputate quam nec vestibulum placerat. Nunc accumsan vestibulum tortor, a accumsan diam tempus vitae. Cras varius molestie purus vitae fermentum. Nullam malesuada congue luctus. Vivamus quis neque neque. Donec ornare dictum odio, quis vestibulum ligula elementum aliquam.
 
