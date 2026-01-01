@@ -11,9 +11,9 @@
 % 紧凑设置
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.5pt plus 0.5pt}
-\setlength{\columnsep}{0.5cm}
+\setlength{\columnsep}{0.2cm}
 \setlist{nosep, leftmargin=*}
-\linespread{1.1} % 减小行距，让公式不会被拉伸
+\linespread{1.12} % 减小行距，让公式不会被拉伸
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{0pt}
 \setlength{\abovedisplayshortskip}{0pt}
@@ -68,11 +68,12 @@
   \item $\frac{\d}{\d t}\int_{a(t)}^{b(t)}f(x)\d x = f(b(t))b'(t) - f(a(t))a'(t)$
   \item Gram-Schmidt 正交化！
   \item 非负离散：$E(X) = \sum_{x=0}^{+\infty}P(X>x)$，连续 $E(X) = \int_0^{+\infty} P(X>x) \d x$
-  \item $\int_{-\infty}^{+\infty} e^{-t^2}\d t = \sqrt\pi$（高斯积分）
+  \item 高斯积分：$\int_{-\infty}^{+\infty} e^{-tx^2}\d x = \sqrt{\pi/t}$
   \item 分部积分：$\int u \d v = uv - \int v \d u$
   \item 凑微分：$\int \d f(u) = \int f'(u) \d u$
   \item $\ln(1-x)=-\sum_{k\ge1} \frac{x^k}{k}$，$(1+x)^{\alpha} = \sum_{k\ge 0}\binom{\alpha}{k} x^k$
   \item $\int (ax+b)^n \d x = \frac{(ax+b)^{n+1}}{a(n+1)} + C$，也即 $\int x^n \d x = \frac{x^{n+1}}{n+1}+C$
+  \item 伽马函数相关性质$$\Gamma(\alpha) = \int_0^{\infty} x^{\alpha-1} e^{-x} \d x$$ $\Gamma(\alpha + 1) = \alpha \cdot \Gamma(\alpha), \Gamma(n+1)=n!, \Gamma(n+\frac12) = \frac{(2n)!}{4^nn!}\sqrt{\pi}$
 \end{itemize}
 
 
@@ -128,7 +129,7 @@ $NB(r,p)$ & $\binom{k-1}{r-1}p^r(1-p)^{k-r}$ & $\frac{r}{p}$ & $\frac{r(1-p)}{p^
 
 \textbf{指数分布}：$X\sim \text{Exp}(\lambda)$，$f(x)=\lambda e^{-\lambda x}$，$F(x) = 1-e^{-\lambda x}$，$E(X)=1/\lambda, \var{X}=1/\lambda^2$。具有无记忆性 $P(X>s+t|X>s) = P(X>t)$。理解为泊松分布假设下，第一次事件发生的时刻。
 
-\textbf{伽马分布}：$X\sim \Gamma(\alpha,\lambda)$，理解为泊松假设下第 $\alpha$ 次的时刻。$$f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\lambda x},x\ge0$$ $E(X)=\alpha / \lambda$，$\var{X}=\alpha / \lambda^2$。其中 $\Gamma(\alpha) = \int_0^{\infty} x^{\alpha-1} e^{-x} \d x, \Gamma(\alpha + 1) = \alpha \cdot \Gamma(\alpha), \Gamma(n+1)=n!, \Gamma(n+\frac12) = \frac{(2n)!}{4^nn!}\sqrt{\pi}$。具有可加性：$\Gamma(\alpha_1+\alpha_2, \lambda) = \Gamma(\alpha_1, \lambda) + \Gamma(\alpha_2, \lambda)$。$\alpha=1$ 时即指数分布。$\alpha=n/2, \lambda=1/2$ 时即 $\chi^2(n)$ 分布。
+\textbf{伽马分布}：$X\sim \Gamma(\alpha,\lambda)$，理解为泊松假设下第 $\alpha$ 次的时刻。$$f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\lambda x},x\ge0$$ $E(X)=\alpha / \lambda$，$\var{X}=\alpha / \lambda^2$。具有可加性：$\Gamma(\alpha_1+\alpha_2, \lambda) = \Gamma(\alpha_1, \lambda) + \Gamma(\alpha_2, \lambda)$。$\alpha=1$ 时即指数分布。$\alpha=n/2, \lambda=1/2$ 时即 $\chi^2(n)$ 分布。
 
 \textbf{概率密度变换}：$Y=g(X)$，$g$ 单调且反函数 $h(y)$ 有连续导数，则 $f_Y(y) = f_X(h(y))\cdot |h'(y)|$。如果没法直接套这个公式的话可以从\textbf{分布函数}的定义出发进行变换。即先算 $P(Y\le y)$ 再求导。
 
@@ -213,6 +214,7 @@ P(X \le E(X) - t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)
   \item $X\sim B(n,p)$，$M_X (t) = (1-p+e^t p)^n$
   \item $X\sim \pi(\lambda)$，$M_X (t) = \exp(\lambda(e^t-1))$
   \item $X\sim N(\mu,\sigma^2)$，$M_X(t) = \exp(\mu t + \frac{\sigma^2 t^2}{2})$
+  \item $X\sim \text{Exp}(\lambda)$，$M_X(t) = \frac{\lambda}{\lambda - t}, t<\lambda$，于是 $\Gamma(n,\lambda)$ 的矩生成函数为 $M_X(t) = \left(\frac{\lambda}{\lambda - t}\right)^n, t<\lambda$，$\chi^2(n)$ 的为 $M_X(t) = (1-2t)^{-\frac n2}, t<1/2$
 \end{itemize}
 
 \textbf{常见 Chernoff-Hoeffding 界}：\begin{itemize}
@@ -267,17 +269,23 @@ $k$ 阶矩：$A_k = \frac1n \sum_{i=1}^n X_i^k$，$A_k$ 是 $\mu_k = E(X^k)$ 的
 
 % // TODO：p19-20 
 
-\textbf{矩法}：用样本矩替换总体矩。\textbf{MLE}：最大化似然函数 $L(\theta)=P(X_1=x_1,\cdots,X_n=x_n)$。
+\textbf{矩法}：用样本矩替换总体矩。方法是不唯一的。对于 $\sigma^2$ 可以用 $S^2$，$B_2$ 甚至 $A_2-\overline{X}^2$。
+
+\textbf{MLE}：最大化似然函数 $L(\theta)=P(\forall i, X_i=x_i)$。\textbf{MLE 的不变性}：若 $\hat\theta$ 是 $\theta$ 的 MLE，则 $g(\hat\theta)$ 是 $g(\theta)$ 的 MLE。
 
 \textbf{区间估计}：设计统计量 $\hat\theta_L(X_1,\cdots,X_n)$ 和 $\hat\theta_U(X_1,\cdots,X_n)$，使得 $P(\hat\theta_L \le \theta \le \hat\theta_U) \ge 1 - \alpha$。
 
 方法：\textbf{枢轴量法}。设计枢轴量 $G$ 使得 $G$ 的分布与未知参数无关，然后选择 $c,d$ 使得 $P(c \le G \le d) = 1 - \alpha$，从而得到不等式 $c \le G(X_1,\cdots,X_n,\theta) \le d$，解出 $\theta$ 的区间估计。
+
+例子：对于 $X\sim N(\mu,\sigma^2)$，设计 $\sigma^2$ 的 $1-\alpha$ 置信区间。考虑 $\frac{(n-1)S^2}{\sigma^2}\sim \chi^2(n-1)$，令 $\chi^2(n-1)$ 分布函数 $F$，取 $c=F^{-1}(\alpha/2), d=F^{-1}(1-\alpha/2)$，则有 $P\left(c \le \frac{(n-1)S^2}{\sigma^2} \le d\right) = 1 - \alpha$，解出 $\sigma^2$ 的区间估计为 $\left[\frac{(n-1)S^2}{d}, \frac{(n-1)S^2}{c}\right]$。对于 $B(1,p)$，可以用 Chernoff $P(|\overline{X}-p|>\epsilon)\le 2e^{-2n\epsilon^2}$，然后让右边等于 $\alpha$ 就可以解出 $\epsilon$。\textbf{注意对于参数 $\theta$ 的区间估计的结果应该是不等号中间是参数 $\theta$}
 
 \subsection{技术}
 
 说明正态总体下 $\overline{X}$ 和 $S^2$ 独立。核心思路：\textbf{通过线性变换将缠在一起的变量 $X_1,\cdots,X_n$（各自包含了均值和方差信息）解耦开来}。构造正交矩阵 $U$，第一行全为 $1/\sqrt{n}$，其他随意。令随机变量 $\boldsymbol{X} = (X_1,\cdots,X_n)$，令 $\boldsymbol{Y} = U\boldsymbol{X}$，显然 $\boldsymbol{Y}$ 服从高斯分布。注意到 $E(\boldsymbol{Y}) = (\sqrt{n}\mu, 0,\cdots, 0)$，且 $\cov{\boldsymbol{Y}} = \sigma^2 I$。因此 $Y_1,\cdots,Y_n$ 独立，且 $Y_1 \sim N(\sqrt{n}\mu, \sigma^2)$，$Y_2,\cdots,Y_n \sim N(0,\sigma^2)$。注意到 $\overline{X} = \frac{Y_1}{\sqrt{n}}$，且 $\sum (X_i - \overline{X})^2 = \sum_{i=2}^n Y_i^2$，因此 $\overline{X}$ 和 $S^2$ 独立。
 
 知道 $\overline{X}\sim N(\mu,\sigma^2/n)$，$(n-1)S^2/\sigma^2 \sim \chi^2(n-1)$（因为是 $n-1$ 个独立的 $N(0,1)$ 的平方和）。
+
+对于 $X\sim\text{Exp}(\lambda)$，计算 $E(1/\overline{X})$ 的时候可以利用 $Y\sim \Gamma(n,\lambda)$，然后可以化出分子和分母的 $\Gamma$ 函数，消掉。
 
 \section{回归分析}
 
