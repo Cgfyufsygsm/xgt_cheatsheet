@@ -221,7 +221,27 @@ $k$ 阶矩：$A_k = \frac1n \sum_{i=1}^n X_i^k$，$A_k$ 是 $\mu_k = E(X^k)$ 的
 
 \textbf{$\sigma^2$ 的无偏估计}：$E(\sum (\hat{y}_i - y_i)^2) = \sum\var{\hat{y}_i - y_i} = (n-2)\sigma^2$，所以 $s^2 = \frac{1}{n-2}\sum(\hat{y_i} - y_i)^2$ 为无偏估计量。
 
-\textbf{最大似然}：需要 $\epsilon_i \sim N(0,\sigma^2)$，对于 $\alpha,\beta$ 等价于最小二乘，但是 $\hat{\sigma^2}_{\text{MLE}} = \frac 1n\sum(y_i - \hat{y}_i)^2$，是有偏的。
+\textbf{最大似然}：需要 $\epsilon_i \sim N(0,\sigma^2)$ 且相互独立，对于 $\alpha,\beta$ 等价于最小二乘，但是 $\hat{\sigma^2}_{\text{MLE}} = \frac 1n\sum(y_i - \hat{y}_i)^2$，是有偏的。$\hat{\alpha}$ 和 $\hat{\beta}$ 服从正态分布（方差我们之前计算过）。若 $s^2 = \frac{1}{n-2}\sum (\hat{y}_i - y_i)^2$，则 $\frac{(n-2)s^2}{\sigma^2} \sim \chi^2(n-2)$，且与 $\hat{\alpha},\hat{\beta}$ 独立。
+
+\subsection{多元线性回归}
+
+$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \epsilon$ 写成向量的形式，发现 $y_i = \boldsymbol{x_i}^\top \boldsymbol{\beta} + \epsilon_i$,其中 $\boldsymbol{x} = (1,x_{i,1},\cdots, x_{i,k})$。定义 $Q(\boldsymbol{\beta}) = \sum (y_i - \boldsymbol{\beta}^\top\boldsymbol{x}_i )^2$，最小化之，最小二乘估计 $\hat{\boldsymbol{\beta}}$。经验回归函数为 $\hat{\boldsymbol{y}} = \boldsymbol{x}^\top \hat{\boldsymbol{\beta}}$
+
+矩阵形式即为 $\boldsymbol{X} \in \mathbb{R}^{n\times (k+1)}$，这个时候 $Q(\boldsymbol{\beta}) = |\boldsymbol{y} - \boldsymbol{X}\boldsymbol{\beta}|^2$。正规方程为 $\nabla Q = -2\boldsymbol{X}^\top(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{\beta}) = 0$，若 $\boldsymbol{X}$ 列满秩，则 $\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top \boldsymbol{y}$。
+
+发现 $\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top (\boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}) = \beta + (\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top \boldsymbol{\epsilon}$，所以 $E(\hat{\boldsymbol{\beta}}) = \boldsymbol{\beta}$，无偏。$\cov{\hat{\boldsymbol{\beta}}} = \sigma^2 (\boldsymbol{X}^\top \boldsymbol{X})^{-1}$。
+
+这里接下来处理一元的情况，注意到 $\boldsymbol{X}^\top\boldsymbol{X} = \begin{pmatrix}
+  n&\sum x_i\\ \sum x_i & \sum x_i^2
+\end{pmatrix}$ 所以行列式为 $n\cdot s_{xx}$，于是 $\cov{\hat{\boldsymbol{\beta}}} = \frac{\sigma^2}{n\cdot s_{xx}}\begin{pmatrix}
+  \sum x_i^2 & -n\overline{x}\\ -n\overline{x} & n
+\end{pmatrix}$，可以和之前的一元结果对应上。
+
+$\hat{\boldsymbol{y}} = \boldsymbol{X}\hat{\boldsymbol{\beta}} = \boldsymbol{X}(\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top \boldsymbol{y}$，令 $\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top$。性质：$\text{tr}(\boldsymbol{H}) = \text{tr}(\boldsymbol{X}(\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top) = \text{tr}((\boldsymbol{X}^\top \boldsymbol{X})^{-1}\boldsymbol{X}^\top\boldsymbol{X}) = \text{tr}(\boldsymbol{I}) = k+1$（trace trick），$\boldsymbol{H}^2=\boldsymbol{H}$，$(\boldsymbol{I-H})^2 = \boldsymbol{I-H}$，$\boldsymbol{HX = X}$，$\boldsymbol{H}$ 对称且半正定。其本质是\textbf{投影矩阵}，将任意向量投影到 $\boldsymbol{X}$ 的列空间上，所以 $\boldsymbol{y} - \hat{\boldsymbol{y}}$ 垂直于该列空间。
+
+所以 $\hat{\boldsymbol{y}}  - \boldsymbol{y} = (\boldsymbol{H-I})\boldsymbol{y} = (\boldsymbol{H-I})\boldsymbol{\epsilon}$，于是 $\cov{\hat{\boldsymbol{y}} - \boldsymbol{y}} = \sigma^2(\boldsymbol{H-I})(\boldsymbol{H-I})^\top = \sigma^2(\boldsymbol{I-H})$，$E(|\hat{\boldsymbol{y}} - \boldsymbol{y}|^2) = \sigma^2\text{tr}(\boldsymbol{I-H}) = \sigma^2(n-k-1)$，所以 $\frac{1}{n-k-1}|\hat{\boldsymbol{y}} - \boldsymbol{y}|^2$ 为 $\sigma^2$ 的无偏估计量。对于一元的情况，$k=1$。
+
+$\text{SST}=\sum(y_i - \overline{y})^2$（总平方和），$\text{SSE}=\sum(\hat{y}_i - y_i)^2$（残差平方和），$\text{SSR}=\sum(\hat{y}_i - \overline{y})^2$（回归平方和）。有 $\text{SST} = \text{SSR} + \text{SSE}$。（证明：知道 $\boldsymbol{y} - \hat{\boldsymbol{y}}$ 垂直于 $C(X)$，而显然 $\overline{\boldsymbol{y}}$ 和 $\hat{\boldsymbol{y}}$ 在列空间内，勾股定理）定义 $R^2 = \text{SSR}/\text{SST}$，表示回归模型对总变异的解释比例。有 $R^2 = 1 - \text{SSE}/\text{SST}$ 且 $R^2 \in [0,1]$。
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nunc elit, tristique quis dignissim sit amet, malesuada nec ante. Phasellus quis tincidunt turpis. Nullam porttitor mi ut sem condimentum, eget malesuada sapien lacinia. Nunc sagittis porttitor interdum. Proin sit amet mattis tortor. Fusce vulputate quam nec vestibulum placerat. Nunc accumsan vestibulum tortor, a accumsan diam tempus vitae. Cras varius molestie purus vitae fermentum. Nullam malesuada congue luctus. Vivamus quis neque neque. Donec ornare dictum odio, quis vestibulum ligula elementum aliquam.
 
