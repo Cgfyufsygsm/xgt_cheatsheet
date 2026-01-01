@@ -13,7 +13,7 @@
 \setlength{\parskip}{1.5pt plus 0.5pt}
 \setlength{\columnsep}{0.5cm}
 \setlist{nosep, leftmargin=*}
-\linespread{1.05} % 减小行距，让公式不会被拉伸
+\linespread{1.2} % 减小行距，让公式不会被拉伸
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{0pt}
 \setlength{\abovedisplayshortskip}{0pt}
@@ -53,8 +53,25 @@
 
 \begin{document}
 
-\begin{multicols*}{4}
-\scriptsize % 使用较小字号
+\begin{multicols*}{3}
+\footnotesize % 使用较小字号
+
+\section*{Misc}
+
+\begin{itemize}
+  \item $n\in \mathbb{N}^*$，$\forall k \in \mathbb{Z}, k \ge 4\log_2 n$，有 $k!\ge n^3$
+  \item $\forall x\ge -1$，$\ln(1+x)\le x$；$\forall x\le 1/2$，$\ln(1-x)\ge -x-x^2$
+  \item $\exp(x)\ge x+1$
+  \item $\frac{\d}{\d t}\int_{a(t)}^{b(t)}f(x)\d x = f(b(t))b'(t) - f(a(t))a'(t)$
+  \item Gram-Schmidt 正交化！
+  \item 非负离散：$E(X) = \sum_{x=0}^{+\infty}P(X>x)$，连续 $E(X) = \int_0^{+\infty} P(X>x) \d x$
+  \item $\int_{-\infty}^{+\infty} e^{-t^2}\d t = \sqrt\pi$（高斯积分）
+  \item 分部积分：$\int u \d v = uv - \int v \d u$
+  \item 凑微分：$\int \d f(u) = \int f'(u) \d u$
+  \item $\ln(1-x)=-\sum_{k\ge1} \frac{x^k}{k}$，$(1+x)^{\alpha} = \sum_{k\ge 0}\binom{\alpha}{k} x^k$
+  \item $\int (ax+b)^n \d x = \frac{(ax+b)^{n+1}}{a(n+1)} + C$，也即 $\int x^n \d x = \frac{x^{n+1}}{n+1}+C$
+\end{itemize}
+
 
 \section{概率论基本概念}
 
@@ -76,11 +93,11 @@ $P(X\ge E(X))>0,P(X\le E(X))>0,\var{aX+b}=a^2\var{X}$
 
 尾不等式/集中不等式：随机变量与期望的偏离。
 
-\textbf{Markov}：对\textbf{非负} $X$，$E(X)>0,a>0$，有 $$P(X\ge a) \le {E(X)} / {a}\quad P(X\ge aE(X)) \le 1 / a$$
+\textbf{Markov}：对\textbf{非负} $X$，$E(X)>0,a>0$，有 $$P(X\ge a) \le \frac{E(X)}{a}\quad P(X\ge aE(X)) \le \frac{1}{a}$$
 
 \textbf{Chebyshev}：对 $\sigma(X)>0,c>0$，$$\begin{aligned}P(|X-E(X)|\ge c\cdot \sigma(X))\le1 / c^2\\P(|X-E(X)|\ge a) \le {\var{X}} / {a^2}\end{aligned}$$
 
-\vspace{-3pt}
+\vspace{-12pt}
 \begin{center}
 \vspace{-3pt}
 \begin{tabular}{|l|l|l|l|}
@@ -110,7 +127,7 @@ $NB(r,p)$ & $\binom{k-1}{r-1}p^r(1-p)^{k-r}$ & $\frac{r}{p}$ & $\frac{r(1-p)}{p^
 
 \textbf{伽马分布}：$X\sim \Gamma(\alpha,\lambda)$，理解为泊松假设下第 $\alpha$ 次的时刻。$$f(x) = \frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\lambda x},x\ge0$$ $E(X)=\alpha / \lambda$，$\var{X}=\alpha / \lambda^2$。其中 $\Gamma(\alpha) = \int_0^{\infty} x^{\alpha-1} e^{-x} \d x, \Gamma(\alpha + 1) = \alpha \cdot \Gamma(\alpha), \Gamma(n+1)=n!, \Gamma(n+\frac12) = \frac{(2n)!}{4^nn!}\sqrt{\pi}$。具有可加性：$\Gamma(\alpha_1+\alpha_2, \lambda) = \Gamma(\alpha_1, \lambda) + \Gamma(\alpha_2, \lambda)$。$\alpha=1$ 时即指数分布。$\alpha=n/2, \lambda=1/2$ 时即 $\chi^2(n)$ 分布。
 
-\textbf{概率密度变换}：$Y=g(X)$，$g$ 单调且反函数 $h(y)$ 有连续导数，则 $f_Y(y) = f_X(h(y))\cdot |h'(y)|$。如果没法直接套这个公式的话可以从\textbf{分布函数}的定义出发进行变换。
+\textbf{概率密度变换}：$Y=g(X)$，$g$ 单调且反函数 $h(y)$ 有连续导数，则 $f_Y(y) = f_X(h(y))\cdot |h'(y)|$。如果没法直接套这个公式的话可以从\textbf{分布函数}的定义出发进行变换。即先算 $P(Y\le y)$ 再求导。
 
 \section{多维离散随机变量}
 
@@ -118,7 +135,7 @@ $NB(r,p)$ & $\binom{k-1}{r-1}p^r(1-p)^{k-r}$ & $\frac{r}{p}$ & $\frac{r(1-p)}{p^
 
 \textbf{协方差}：$\cov{X,Y} = E((X-E(X))(Y-E(Y))) = E(XY) - E(X)E(Y)$。
 
-$\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y} + 2\cov{X,Y}$，$\cov{aX,bY} = ab\cdot \cov{X,Y}$，$\cov{X_1+X_2,Y}=\cov{X_1,Y}+\cov{X_2,Y}$
+$\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y} + 2\cov{X,Y}$，$\cov{aX,bY} = ab\cdot \cov{X,Y}$，$\cov{X_1+X_2,Y}=\cov{X_1,Y}+\cov{X_2,Y}$，$\cov{X,Y}\le \sqrt{\var{X}\var{Y}}$
 
 \textbf{条件期望}：$E(X|Y=y)=\sum_i x_i P(X=x_i|Y=y)$，是关于 $y$ 的函数。$E(X|Y)$ 是随机变量。
 
@@ -126,7 +143,7 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \section{多维连续随机变量}
 
-\textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。
+\textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关，即 $X\sim N(\mu_1, \sigma_1^2), Y \sim N(\mu_2, \sigma_2^2)$。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。
 
 \textbf{相关系数} $\text{Corr}(X,Y)=\cov{X,Y}/\sigma(X)\sigma(Y)$。相关系数/协方差大于 0 则正相关，小于 0 则负相关，等于 0 则不相关（但不一定独立）。相关系数等于 $\pm1$ 代表 $X,Y$ 呈严格线性关系。证明考虑标准化 $\tilde{X},\tilde{Y}$，然后通过 $\var{\tilde{X}-\tilde{Y}}=0$ 推导出 $P(\tilde{X}-\tilde{Y}=c)=1$。
 
@@ -155,7 +172,16 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \textbf{高斯}：$n$ 维高斯的联合密度函数，$\boldsymbol{B}$ 为协方差矩阵：$$f(\boldsymbol{x}) = \frac{1}{(2\pi)^{\frac n2}(\det\boldsymbol{B})^{\frac12}}\exp\left(-\frac12\cdot (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{B}^{-1} (\boldsymbol{x} - \boldsymbol{\mu})\right)$$ 若 $\boldsymbol{X} \sim N(\boldsymbol{\mu},\boldsymbol{B})$，令 $\boldsymbol{Y} = \boldsymbol{AX} + \boldsymbol{b}$，且 $\boldsymbol{A}$ 行满秩，则 $Y\sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{AB}\boldsymbol{A}^\top)$
 
+\subsection{结论}
+
+\begin{itemize}
+  \item 对于独立的 $X_i\sim N(\mu_i, \sigma^2_i)$，有 $$\sum a_i X_i \sim N(\sum a_i\mu_i, \sum a_i^2 \sigma_i^2)$$
+  \item 对于单个 $X_i \sim N(0,1)$，有 $X_i^2 \sim \chi^2(1)=\Gamma(1/2,1/2)$，且 $\sum_{i=1}^n X_i^2 \sim \chi^2(n)=\Gamma(\frac{n}{2}, \frac{1}{2})$
+\end{itemize}
+
 \section{尾不等式、大数定律与中心极限定理}
+
+\subsection{尾不等式}
 
 尾不等式：$P(X\ge k)$ 的上界。集中不等式：$P(|X-E(X)|\ge k)$ 的上界。
 
@@ -163,7 +189,7 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \textbf{矩生成函数}：$M_X(t) = E(e^{tX}) = \sum_{i\ge0}\frac{t^i}{i!}E(X^i)$。所以求 $k$ 阶矩可以求其封闭形式的 $k$ 阶导然后令 $t=0$。
 
-\textbf{Chernoff Bound}：求 $k$ 阶中心矩然后用 Markov 得到的尾不等式通常较弱（没有真正用到 $n$ 重伯努利实验的独立性）。对于任意 $t>0$，有 $$P(X\ge a) = P(e^{tX} \ge e^{ta}) \le \frac{E(e^{tX})}{e^{ta}} = e^{-ta} M_X(t)$$ 对于任意 $t<0$ 有 $P(X\le a)\le M_X(t)\cdot e^{-t a} $ 通过调节 $t$ 可得到更紧的上界。一般而言是\textbf{求导}找最小值。
+\textbf{Chernoff Bound}：求 $k$ 阶中心矩然后用 Markov 得到的尾不等式通常较弱（没有真正用到 $n$ 重伯努利实验的独立性）。对于任意 $t>0$，有 $$P(X\ge a) = P(e^{tX} \ge e^{ta}) \le \frac{E(e^{tX})}{e^{ta}} = e^{-ta} M_X(t)$$ 对于任意 $t<0$ 有 $P(X\le a)\le M_X(t)\cdot e^{-t a} $ 通过调节 $t$ 可得到更紧的上界。一般而言是\textbf{求导}找最小值。但是 Chernoff Bound 不一定是最紧的。
 
 \textbf{Hoeffding 引理}：若实数随机变量 $a\le X\le b$， 则对任意实数 $t$ 有 $$E(e^{t(X-E(X))}) \le \exp\left(\frac{t^2(b-a)^2}{8}\right)$$
 
@@ -171,6 +197,24 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 P(X \ge E(X) + t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)\\
 P(X \le E(X) - t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)
 \end{aligned} $$ 对于 $a\le X_i\le b$ 的情况，分母就是 $n(b-a)^2$。
+
+\subsection{尾不等式结论}
+
+\textbf{矩生成函数}：\begin{itemize}
+  \item $X\sim B(n,p)$，$M_X (t) = (1-p+e^t p)^n$
+  \item $X\sim \pi(\lambda)$，$M_X (t) = \exp(\lambda(e^t-1))$
+  \item $X\sim N(\mu,\sigma^2)$，$M_X(t) = \exp(\mu t + \frac{\sigma^2 t^2}{2})$
+\end{itemize}
+
+\textbf{常见 Chernoff-Hoeffding 界}：\begin{itemize}
+  \item $X\sim \pi(\lambda)$，$P(X\ge x) \le \frac{e^{-\lambda}(e\lambda)^x}{x^x}$
+  \item $X\sim N(\mu,\sigma^2)$，$P(X \ge E(X) + k\sigma) \le \exp(-k^2/2)$
+  \item $X\sim B(n,p)$，$P(|X-E(X)|\ge n\epsilon)\le 2\cdot \exp(-2n\epsilon^2)$
+\end{itemize}
+
+\textbf{对期望分段放缩}：对于 $E(Y) = \sum_{k=1}^n P(Y=k)\cdot k$，若我们知道对于 $k>k'$ 有 $P(Y=k)\le c$，那么就可以分段放缩：$$E(Y) = \sum_{k=1}^{k'} P(Y=k)\cdot k + \sum_{k=k'+1}^n P(Y=k)\cdot k$$ 左边的 $k$ 放成 $k'$，右边的放成 $n$，然后和 $c$ 消掉。
+
+\subsection{大数定律}
 
 \textbf{大数定律的一般形式}：对于随机变量 $\{X_n\}$，对于任意 $\epsilon>0$，若$$\lim_{n\to \infty}P\left(\left|\frac1n\sum_{i=1}^{n}X_i-\frac1n\sum_{i=1}^{n}E(X_i)\right|<\epsilon\right)=1$$
 
@@ -183,6 +227,8 @@ P(X \le E(X) - t) &\le \exp\left(\frac{-2t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)
 \textbf{依分布收敛}：随机变量序列 $\{X_n\}$ 依分布收敛于 $X$，记作 $X_n \xrightarrow{d} X$，如果对任意 $x$，$F_{X_n}(x) \to F_X(x)$。\textbf{依概率收敛可以推出依分布收敛，反之不亦然}
 
 \textbf{几乎必然收敛}：随机变量序列 $\{X_n\}$ 几乎必然收敛于 $X$，记作 $X_n \xrightarrow{a.s.} X$，如果 $\forall \epsilon>0$ $$\lim_{n\to\infty}P\left(\bigcup_{m=n}^\infty |X_m-X|\ge \epsilon\right) = 1$$
+
+\subsection{应用}
 
 \section{参数估计}
 
@@ -203,6 +249,13 @@ $k$ 阶矩：$A_k = \frac1n \sum_{i=1}^n X_i^k$，$A_k$ 是 $\mu_k = E(X^k)$ 的
 \textbf{区间估计}：设计统计量 $\hat\theta_L(X_1,\cdots,X_n)$ 和 $\hat\theta_U(X_1,\cdots,X_n)$，使得 $P(\hat\theta_L \le \theta \le \hat\theta_U) \ge 1 - \alpha$。
 
 方法：\textbf{枢轴量法}。设计枢轴量 $G$ 使得 $G$ 的分布与未知参数无关，然后选择 $c,d$ 使得 $P(c \le G \le d) = 1 - \alpha$，从而得到不等式 $c \le G(X_1,\cdots,X_n,\theta) \le d$，解出 $\theta$ 的区间估计。
+
+\subsection{技术}
+
+说明正态总体下 $\overline{X}$ 和 $S^2$ 独立。核心思路：\textbf{通过线性变换将缠在一起的变量 $X_1,\cdots,X_n$（各自包含了均值和方差信息）解耦开来}。构造正交矩阵 $U$，第一行全为 $1/\sqrt{n}$，其他随意。令随机变量 $\boldsymbol{X} = (X_1,\cdots,X_n)$，令 $\boldsymbol{Y} = U\boldsymbol{X}$，显然 $\boldsymbol{Y}$ 服从高斯分布。注意到 $E(\boldsymbol{Y}) = (\sqrt{n}\mu, 0,\cdots, 0)$，且 $\cov{\boldsymbol{Y}} = \sigma^2 I$。因此 $Y_1,\cdots,Y_n$ 独立，且 $Y_1 \sim N(\sqrt{n}\mu, \sigma^2)$，$Y_2,\cdots,Y_n \sim N(0,\sigma^2)$。注意到 $\overline{X} = \frac{Y_1}{\sqrt{n}}$，且 $\sum (X_i - \overline{X})^2 = \sum_{i=2}^n Y_i^2$，因此 $\overline{X}$ 和 $S^2$ 独立。
+
+知道 $\overline{X}\sim N(\mu,\sigma^2/n)$，$(n-1)S^2/\sigma^2 \sim \chi^2(n-1)$（因为是 $n-1$ 个独立的 $N(0,1)$ 的平方和）。
+
 \section{回归分析}
 
 回归分析：$y=\alpha+\beta x + \epsilon$，其中 $\epsilon$ 为误差项，$E(\epsilon)=0$, $\var{\epsilon}=\sigma^2$。
@@ -242,16 +295,6 @@ $\hat{\boldsymbol{y}} = \boldsymbol{X}\hat{\boldsymbol{\beta}} = \boldsymbol{X}(
 所以 $\hat{\boldsymbol{y}}  - \boldsymbol{y} = (\boldsymbol{H-I})\boldsymbol{y} = (\boldsymbol{H-I})\boldsymbol{\epsilon}$，于是 $\cov{\hat{\boldsymbol{y}} - \boldsymbol{y}} = \sigma^2(\boldsymbol{H-I})(\boldsymbol{H-I})^\top = \sigma^2(\boldsymbol{I-H})$，$E(|\hat{\boldsymbol{y}} - \boldsymbol{y}|^2) = \sigma^2\text{tr}(\boldsymbol{I-H}) = \sigma^2(n-k-1)$，所以 $\frac{1}{n-k-1}|\hat{\boldsymbol{y}} - \boldsymbol{y}|^2$ 为 $\sigma^2$ 的无偏估计量。对于一元的情况，$k=1$。
 
 $\text{SST}=\sum(y_i - \overline{y})^2$（总平方和），$\text{SSE}=\sum(\hat{y}_i - y_i)^2$（残差平方和），$\text{SSR}=\sum(\hat{y}_i - \overline{y})^2$（回归平方和）。有 $\text{SST} = \text{SSR} + \text{SSE}$。（证明：知道 $\boldsymbol{y} - \hat{\boldsymbol{y}}$ 垂直于 $C(X)$，而显然 $\overline{\boldsymbol{y}}$ 和 $\hat{\boldsymbol{y}}$ 在列空间内，勾股定理）定义 $R^2 = \text{SSR}/\text{SST}$，表示回归模型对总变异的解释比例。有 $R^2 = 1 - \text{SSE}/\text{SST}$ 且 $R^2 \in [0,1]$。
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nunc elit, tristique quis dignissim sit amet, malesuada nec ante. Phasellus quis tincidunt turpis. Nullam porttitor mi ut sem condimentum, eget malesuada sapien lacinia. Nunc sagittis porttitor interdum. Proin sit amet mattis tortor. Fusce vulputate quam nec vestibulum placerat. Nunc accumsan vestibulum tortor, a accumsan diam tempus vitae. Cras varius molestie purus vitae fermentum. Nullam malesuada congue luctus. Vivamus quis neque neque. Donec ornare dictum odio, quis vestibulum ligula elementum aliquam.
-
-Cras vitae pharetra elit, sit amet finibus purus. Maecenas at mauris et turpis faucibus vestibulum. Nulla facilisi. Vivamus faucibus ullamcorper ante, quis condimentum orci imperdiet pretium. Praesent sed quam vulputate nibh elementum lobortis eu tempor ligula. Vivamus non urna elit. Morbi imperdiet magna pulvinar tellus volutpat rutrum. Mauris imperdiet purus ullamcorper, pellentesque ligula sit amet, ultricies lacus. Nulla luctus euismod egestas. Nam eleifend nunc a enim sagittis, feugiat auctor libero luctus. Nullam nec placerat sem, in aliquet tellus.
-
-Duis non elementum neque. Vivamus eget nibh vel neque mattis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas et quam vitae enim tempus luctus eu sit amet enim. In facilisis ex eget vehicula vestibulum. Phasellus laoreet arcu in nibh sodales semper vitae sit amet leo. Vestibulum sagittis pellentesque quam id imperdiet. Cras tempor consequat tellus. In congue facilisis varius. Duis tempor felis eget ante dignissim, sed ultrices turpis lacinia. Nunc nec nunc nulla. Aliquam tempor mauris vel placerat vehicula. Aliquam vulputate ut sem eget interdum. Donec a faucibus est. Vestibulum volutpat enim aliquet nisi faucibus bibendum. Sed rutrum eleifend sem, nec hendrerit tortor mattis accumsan.
-
-Suspendisse cursus felis sed nunc egestas dapibus. Nunc quis eros sem. Ut lorem elit, vestibulum quis neque sed, tincidunt pellentesque eros. Curabitur ac condimentum lacus. Suspendisse potenti. Proin commodo lorem arcu, at porttitor ligula aliquet quis. Nulla facilisi. Integer pretium quam leo, et iaculis nisi semper et. Cras vel volutpat lectus. Phasellus porttitor, lacus vel pretium accumsan, ex lacus maximus sapien, sit amet suscipit turpis ex vel quam. Aliquam egestas porta arcu nec bibendum.
-
-Mauris facilisis tortor nec lectus accumsan mattis. Donec eget commodo elit, non porttitor neque. Cras lobortis orci quis lacus consequat, sed rhoncus augue iaculis. Donec quis tincidunt ex. Curabitur in elit tellus. Integer pharetra dui metus, nec auctor nisi gravida eget. Fusce orci nulla, laoreet tincidunt varius accumsan, laoreet at neque. Aenean at mauris venenatis metus semper eleifend.
 
 \end{multicols*}
 
