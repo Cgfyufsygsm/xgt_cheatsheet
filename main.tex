@@ -13,7 +13,7 @@
 \setlength{\parskip}{1.5pt plus 0.5pt}
 \setlength{\columnsep}{0.2cm}
 \setlist{nosep, leftmargin=*}
-\linespread{1.12} % 减小行距，让公式不会被拉伸
+\linespread{1.08} % 减小行距，让公式不会被拉伸
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{0pt}
 \setlength{\abovedisplayshortskip}{0pt}
@@ -67,7 +67,7 @@
   \item $\exp(x)\ge x+1$
   \item $\frac{\d}{\d t}\int_{a(t)}^{b(t)}f(x)\d x = f(b(t))b'(t) - f(a(t))a'(t)$
   \item Gram-Schmidt 正交化！
-  \item 非负离散：$E(X) = \sum_{x=0}^{+\infty}P(X>x)$，连续 $E(X) = \int_0^{+\infty} P(X>x) \d x$
+  \item \textbf{期望！}非负离散：$E(X) = \sum_{x=0}^{+\infty}P(X>x)$，连续 $E(X) = \int_0^{+\infty} P(X>x) \d x$，有分布函数 $F_X(x)$ 的话 $E(X) = \int_0^{+\infty} (1-F_X(x)) \d x$。如果分段函数要注意分段之前的部分 $1$ 也有积分贡献。
   \item 高斯积分：$\int_{-\infty}^{+\infty} e^{-tx^2}\d x = \sqrt{\pi/t}$
   \item 分部积分：$\int u \d v = uv - \int v \d u$
   \item 凑微分：$\int \d f(u) = \int f'(u) \d u$
@@ -151,7 +151,7 @@ $\var{X_1+\cdots+X_n} = \sum_i\sum_j \cov{X_i,X_j}$，$\var{X+Y}=\var{X}+\var{Y}
 
 \textbf{条件密度函数}： $f(x|y) = \frac{\partial}{\partial x} F(x|y) = \frac{f(x,y)}{f_Y(y)}$。
 
-\textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关，即 $X\sim N(\mu_1, \sigma_1^2), Y \sim N(\mu_2, \sigma_2^2)$。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。
+\textbf{二维高斯}：$X,Y\sim N(\mu_1,\mu_2, \sigma_1^2,\sigma_2^2,\rho)$，要求 $|\rho|<1$。$$\resizebox{\linewidth}{!}{$\displaystyle \frac{1}{2\pi \sigma_1\sigma_2\sqrt{1-\rho^2}}\exp\left[-\frac{1}{2(1-\rho^2)}\left(\frac{(x-\mu_1)^2}{\sigma_1^2}+\frac{(y-\mu_2)^2}{\sigma_2^2}-\frac{2\rho(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}\right) \right]$}$$ 边际密度函数与 $\rho$ 无关，即 $X\sim N(\mu_1, \sigma_1^2), Y \sim N(\mu_2, \sigma_2^2)$。$\rho=0$ 时独立。协方差 $\cov{X,Y} = \rho\sigma_1\sigma_2$。给定条件 $Y=y$，$X$ 的条件分布服从 $N(\mu_1+\rho\frac{\sigma_1}{\sigma_2}(y-\mu_2),\sigma_1^2(1-\rho^2))$
 
 \textbf{相关系数} $\text{Corr}(X,Y)=\cov{X,Y}/\sigma(X)\sigma(Y)$。相关系数/协方差大于 0 则正相关，小于 0 则负相关，等于 0 则不相关（但不一定独立）。相关系数等于 $\pm1$ 代表 $X,Y$ 呈严格线性关系。证明考虑标准化 $\tilde{X},\tilde{Y}$，然后通过 $\var{\tilde{X}-\tilde{Y}}=0$ 推导出 $P(\tilde{X}-\tilde{Y}=c)=1$。
 
